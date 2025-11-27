@@ -1,72 +1,142 @@
-# Day 1 — Load Dataset
+# Day 1 — Load Dataset Dasar (Belajar Membaca Data)
 
-## Tujuan
-Memahami cara membaca dataset pertama kali:
-- read_csv
-- mengecek struktur data
-- mendeteksi masalah awal sebelum cleaning
+Hai Ashar! 👋  
+Selamat datang di Day 1. Hari ini kita belajar **membaca dataset** dan melihat **struktur data** supaya kita tahu data kita seperti apa.  
 
-## File dalam folder ini
-- dataset/day1_dataset.csv → data mentah
-- notebook/day1.ipynb → eksplorasi & catatan
-- script/day1_load_dataset.py → script loading otomatis
-- output/ (belum digunakan di Day 1)
-
-## Tugas
-1. Load dataset.
-2. Tampilkan:
-   - head
-   - info
-   - shape
-   - sample
-3. Identifikasi:
-   - format tanggal
-   - missing value
-   - tipe data yang salah
-   - kolom numerik yang terbaca sebagai string
-
-# **Tabel Ringkas Perintah Pandas (Data Profiling)**
-
-### *Day 1 – Wajib hafal untuk semua project Data Automation*
-
-| Kategori             | Perintah                        | Fungsi Singkat           | Kapan Dipakai                                       |
-| -------------------- | ------------------------------- | ------------------------ | --------------------------------------------------- |
-| **Melihat Data**     | `df.head()`                     | Lihat 5 baris pertama    | Cek data berhasil dibaca, lihat struktur awal       |
-|                      | `df.head(10)`                   | Lihat 10 baris           | Saat dataset besar, ingin lihat lebih banyak contoh |
-|                      | `df.tail()`                     | Lihat baris terakhir     | Cek baris rusak, footer aneh, baris kosong          |
-|                      | `df.sample(5)`                  | Ambil sample acak        | Cek variasi data, deteksi noise                     |
-| **Struktur Dataset** | `df.shape`                      | Jumlah baris × kolom     | Pastikan ukuran dataset benar                       |
-|                      | `df.columns`                    | Daftar kolom             | Cek nama kolom, banyak dipakai untuk rename         |
-|                      | `df.info()`                     | Tipe data & Missing      | Cek apakah numeric → object, cek missing            |
-| **Statistik Dasar**  | `df.describe()`                 | Statistik angka          | Cek outlier, range angka janggal                    |
-|                      | `df.describe(include='object')` | Statistik teks/kategori  | Cek frekuensi kategori, nilai paling sering         |
-| **Quality Check**    | `df.isna().sum()`               | Jumlah missing per kolom | Menentukan langkah cleaning                         |
-|                      | `df.duplicated().sum()`         | Jumlah baris duplikat    | Untuk day 12 (duplicate handling)                   |
-|                      | `df.nunique()`                  | Jumlah nilai unik        | Cek apakah kolom benar-benar kategori               |
-| **Tipe Data**        | `df.dtypes`                     | Cek tipe data cepat      | Pastikan angka ≠ object, tanggal ≠ string           |
-|                      | `df.select_dtypes('number')`    | Ambil kolom numeric      | Untuk cleaning numeric/day 10                       |
-|                      | `df.select_dtypes('object')`    | Ambil kolom teks         | Untuk cleaning text/day 8–9                         |
+Ini adalah **langkah pertama yang sangat penting** sebelum kita mulai membersihkan atau memproses data.
 
 ---
 
-# **Ringkasan Super Penting**
+## 🍼 Apa itu Day 1?
 
-Day 1 itu bukan cleaning.
+Day 1 = belajar **load dataset dan cek struktur dasar**.  
+Artinya:
 
-Day 1 itu **MEMAHAMI DATA**.
+- Buka file CSV atau Excel 📂  
+- Lihat 5 baris pertama & terakhir 👀  
+- Cek jumlah baris & kolom 📊  
+- Cek tipe data awal (`object`, `int`, `float`)  
+- Lihat apakah ada missing value awal ❓  
 
-Karena tanpa paham:
+Kenapa penting?  
+Kalau kita gak ngerti data mentah kita, nanti:
 
-* shape
-* tipe data
-* missing
-* struktur
-* statistik dasar
+- Bisa salah bersihin data 😵  
+- Bisa salah detect missing value 😭  
+- Bisa salah ketika buat pipeline otomatis 😱  
 
-…maka semua cleaning setelah itu **salah arah**.
+Jadi Day 1 itu **langkah “intip rumah dulu sebelum dibersihin”**.
 
-Oleh karena itu, semua perintah di tabel ini adalah **core Pandas for Profiling**.
+---
 
-## Output Day 1
-Hanya pemahaman struktur data,
-belum melakukan perbaikan tipe data atau cleaning.
+## 🐣 Struktur Folder Day 1
+
+```
+
+day01-load-dataset/
+│── dataset/      # tempat data mentah
+│── notebook/     # tempat coba-coba & eksplorasi
+│── script/       # script kecil untuk load & cek data
+└── output/       # tempat menyimpan hasil inspection
+
+````
+
+### Penjelasan gampang:
+
+- **dataset/** → data asli, jangan diubah  
+- **notebook/** → tempat coba-coba lihat data, visualisasi awal  
+- **script/** → script reusable, misalnya fungsi load & cek data  
+- **output/** → simpan hasil print/summary supaya gampang dilacak  
+
+---
+
+## 🍼 Dataset Contoh (dataset/hari1_dataset.csv)
+
+| order_id | date       | qty | price     | category |
+|----------|------------|-----|-----------|----------|
+| A001     | 12/31/2024 | 3   | 10000     | makanan  |
+| A002     | 2024-01-05 | 1   | 25000     | minuman  |
+| A003     | 01-07-2024 | 2   | 30000     | makanan  |
+| A004     | 7 Jan 2024 | 5   | 50500     | lainnya  |
+| A005     | 2024/01/08 | 1   | 10000     | minuman  |
+
+> Lihat kan? Ini data mentah awal. Belum kita cek atau bersihin.
+
+---
+
+## 🍼 Script Penting
+
+### 1. load_data.py
+
+- Fungsi `load_csv(file_path)`  
+- Bisa load CSV atau Excel  
+- Bisa langsung print head, tail, shape, dan info
+
+### 2. inspect_data.py
+
+- Fungsi `check_missing(df)` → cek missing value  
+- Fungsi `check_dtype(df)` → lihat tipe data awal  
+
+---
+
+## 🍼 Workflow Day 1 (Sederhana)
+
+1. **Buka dataset** → dataset/hari1_dataset.csv  
+2. **Lihat baris pertama & terakhir** → `df.head()`, `df.tail()`  
+3. **Cek jumlah baris & kolom** → `df.shape`  
+4. **Cek tipe data** → `df.dtypes`  
+5. **Cek missing value awal** → `df.isna().sum()`  
+6. **Simpan hasil** ke folder `output/` (misal: summary.csv)
+
+---
+
+## 🍼 Cara Cek Day 1 Berhasil
+
+- Bisa print 5 baris pertama → lihat data benar  
+- Bisa print 5 baris terakhir → lihat data benar  
+- Bisa cek shape → jumlah baris & kolom sesuai  
+- Bisa cek dtypes → tahu kolom mana string, angka, tanggal  
+- Bisa cek missing → tahu kolom mana perlu di-handle nanti  
+
+Kalau semua ini ✅ → Day 1 sukses! 🎉
+
+---
+
+## 🍼 Kenapa Day 1 Penting Sekali?
+
+Bayangkan ini:
+
+- Data = rumah kita  
+- Day 1 = lihat rumah dulu, cek kondisi atap & lantai  
+- Kalau kita lompat bersihin tanpa lihat → bisa salah bersih 😵  
+
+Intinya: **Day 1 itu tahap “kenalan dengan data” sebelum mulai cleaning**.  
+
+---
+
+## 🍼 Contoh Pakai Script
+
+```python
+import pandas as pd
+from script.load_data import load_csv
+from script.inspect_data import check_missing, check_dtype
+
+# Load dataset
+df = load_csv("dataset/hari1_dataset.csv")
+
+# Cek dtype & missing
+check_dtype(df)
+check_missing(df)
+
+# Simpan summary ke output/
+df.describe().to_csv("output/summary_day1.csv")
+````
+
+---
+
+## 🍼 Tips Ashar
+
+* Jangan ubah data mentah di folder dataset
+* Selalu lihat head & tail sebelum bersih-bersih
+* Simpan summary di folder output untuk dokumentasi
+* Anggap Day 1 = “intip rumah dulu sebelum renovasi” 🏠
