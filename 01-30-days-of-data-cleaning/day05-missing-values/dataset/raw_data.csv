@@ -1,0 +1,11 @@
+customer_id,name,email,age,city,join_date,last_purchase,total_spent
+C001,Andi,andigmail.com,23,Jakarta,2023-01-15,2023-04-20,1500000
+C002,,budi@example.com,,Bandung,2023/02/01,2023/05/10,?
+C003,Siti,,27,,2023-03-05,2023-05-18,250000
+C004,,rani@example.com,?,Surabaya,2023/01/20,,300000
+C005,Joko,joko@example.com,31,?,2023-02-10,2023-03-22,1200000
+C006,Lina,,29,Yogyakarta,,2023/04/12,
+C007,,bayu@example.com,35,Bali,2023-01-30,2023-04-20,900000
+C008,Udin,?,,Jakarta,2023/03/11,?,750000
+C009,Bella,bella@example.com,28,,?,2023-05-01,1000000
+C010,Rio,rio@example.com,,Medan,2023-04-01,2023-04-25,?
