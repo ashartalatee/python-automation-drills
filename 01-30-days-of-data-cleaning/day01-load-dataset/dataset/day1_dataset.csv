@@ -1,6 +1,0 @@
-transaction_id,date,customer_name,age,product,price,qty,total,city
-T001,2024-01-02,Ali,25,Keyboard,250000,1,250000,Jakarta
-T002,02/01/24,Budi,thirty,Mouse,100,2,200,Bandung
-T003,2024/01/03,Cindy,29,Monitor,1.500.000,1,1.500.000,Surabaya
-T004,1-4-2024,Dewi,,Laptop,8500000,1,8500000,Jakarta
-T005,2024-01-05,Eko,31,Keyboard,250000,three,750000,Medan
